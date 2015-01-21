@@ -16,14 +16,13 @@ int main(void){
 	while(1){
 		if((client = accept(serveur, NULL, NULL)) == -1)
 			perror("accept");
+		printf("Client connecté\n");
+		fflush(stdout);
 		write(client, intro, strlen(intro));
-		while((alt = read(client, buffer, 256))){
+		while((alt = read(client, buffer, 256)))
 			write(client, buffer, alt);
-			
-			/* Detection fin de session ??
-			tmp = recv(serveur, buffer, sizeof(buffer), 0);
-			printf("%d", tmp); */
-		}
+		printf("Client déconnecté\n");
+		fflush(stdout);
 	}
 	return 0;
 }

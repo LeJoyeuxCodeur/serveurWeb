@@ -16,9 +16,13 @@ int main(void){
 	while(1){
 		if((client = accept(serveur, NULL, NULL)) == -1)
 			perror("accept");
+		printf("Client connecté\n");
+		fflush(stdout);
 		write(client, intro, strlen(intro));
 		while((alt = read(client, buffer, 256)))
 			write(client, buffer, alt);
+		printf("Client déconnecté\n");
+		fflush(stdout);
 	}
 	return 0;
 }
