@@ -12,19 +12,13 @@ int main(void){
 	int alt;
 	const char *intro = "Bienvenue, mortel, sur ce magnifique serveur d'echo\nIci ma gueule, quand tu parles, on te répond !\nCependant, tu auras la grosse impression de dialoguer... tout seul !\nHeureusement, tu connais ça, espèce de sans amis!\nTu peux t'en aller après avoir pris assez de vents dans la tête avec un ctrl + c\nSalut rémi sans amis!\n";
 	char buffer[256];
-	int tmp;
 	
 	while(1){
 		if((client = accept(serveur, NULL, NULL)) == -1)
 			perror("accept");
 		write(client, intro, strlen(intro));
-		while((alt = read(client, buffer, 256))){
+		while((alt = read(client, buffer, 256)))
 			write(client, buffer, alt);
-			
-			/* Detection fin de session ??
-			tmp = recv(serveur, buffer, sizeof(buffer), 0);
-			printf("%d", tmp); */
-		}
 	}
 	return 0;
 }
