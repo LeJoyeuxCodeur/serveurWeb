@@ -16,7 +16,7 @@ int main(void){
 		if((client = accept(serveur, NULL, NULL)) == -1)
 			perror("accept");
 		write(client, intro, strlen(intro));
-		while(alt = read(client, buffer, 256))
+		while((alt = read(client, buffer, 256)))
 			write(client, buffer, alt);
 	}
 	return 0;

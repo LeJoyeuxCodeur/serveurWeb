@@ -6,7 +6,7 @@ CFLAGS=-Wall -W -Werror
 LDFLAGS=
 
 # Le nom de l’exécutable à fabriquer
-EXE=pawnee
+EXE=YouCantTestMyServer
 
 
 # Les variables HEADERS, CFILES et OBJS vont contenir respectivement
