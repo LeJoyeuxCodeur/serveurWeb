@@ -10,12 +10,14 @@ int creer_serveur(int port){
 	int bind_serveur;
 	int optval = 1;
 	struct sockaddr_in sockaddr;
-	
+
+	/* Initialisation structure sockaddr */	
 	sockaddr.sin_family = AF_INET;
 	sockaddr.sin_port = htons(port);
 	sockaddr.sin_addr.s_addr = INADDR_ANY;
 	
 	socket_serveur = socket (AF_INET, SOCK_STREAM, 0);
+	/* Erreur dans la creation de la socket */
 	if(socket_serveur == -1)
 		perror("socket_serveur");
 	initialiser_signaux();
