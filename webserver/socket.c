@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
+#include <signal.h>
 
 int creer_serveur(int port){
 	int socket_serveur;
@@ -20,6 +21,9 @@ int creer_serveur(int port){
 	
 	if (setsockopt(socket_serveur, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(int)) == -1)
 		perror("Can not set SO_REUSEADDR option");
+	if(signal(SIGPIPE, SIG_IGN) == SIG_ERR){
+	  perror("signal");
+	}
 	/* Utilisation de la socket serveur */
 	if((bind_serveur = bind(socket_serveur, (struct sockaddr *)&sockaddr, sizeof(sockaddr))) == -1)
 		perror("bind socker_serveur");
