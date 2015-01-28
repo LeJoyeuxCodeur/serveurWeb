@@ -18,12 +18,9 @@ int creer_serveur(int port){
 	socket_serveur = socket (AF_INET, SOCK_STREAM, 0);
 	if(socket_serveur == -1)
 		perror("socket_serveur");
-	
+	initialiser_signaux();
 	if (setsockopt(socket_serveur, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(int)) == -1)
 		perror("Can not set SO_REUSEADDR option");
-	if(signal(SIGPIPE, SIG_IGN) == SIG_ERR){
-	  perror("signal");
-	}
 	/* Utilisation de la socket serveur */
 	if((bind_serveur = bind(socket_serveur, (struct sockaddr *)&sockaddr, sizeof(sockaddr))) == -1)
 		perror("bind socker_serveur");
@@ -32,3 +29,9 @@ int creer_serveur(int port){
 	
 	return socket_serveur;
 }
+
+void initialiser_signaux(void){
+  if(signal(SIGPIPE, SIG_IGN) == SIG_ERR)
+    perror("signal");
+}
+
