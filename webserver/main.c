@@ -21,19 +21,19 @@ int main(void){
 		printf("Client connecté\n");
 		fflush(stdout);
 		write(client, intro, strlen(intro));
-		if((pid=fork()) == -1){
-		  perror("fork");
-		}else{
-		  if(pid!=0){
-		    if(close(client)==-1)
-		      perror("close");
-		  }else{
-		    while((alt = read(client, buffer, 256))){
-		      write(client, buffer, alt);
-		    }
-		    printf("Client déconnecté\n");
-		    fflush(stdout);
-		  }
+		if((pid=fork()) == -1)
+		 	perror("fork");
+		else {
+			if(pid!=0){
+		 		if(close(client)==-1)
+		    		perror("close");
+		  	} 
+		  	else{
+		    	while((alt = read(client, buffer, 256)))
+		      		write(client, buffer, alt);
+		    	printf("Client déconnecté\n");
+		    	fflush(stdout);
+			}
 		}
 	}
 	return 0;
