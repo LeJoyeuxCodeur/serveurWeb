@@ -1,6 +1,7 @@
 #include "socket.h"
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/wait.h>
 #include <netinet/in.h>
 #include <stdio.h>
 #include <signal.h> 
@@ -9,9 +10,7 @@ int creer_serveur(int port){
 	int socket_serveur;
 	int bind_serveur;
 	int optval = 1;
-	struct sockaddr_in sockaddr;
-
-	/* Initialisation structure sockaddr */	
+	struct sockaddr_in sockaddr;	
 	sockaddr.sin_family = AF_INET;
 	sockaddr.sin_port = htons(port);
 	sockaddr.sin_addr.s_addr = INADDR_ANY;
@@ -33,7 +32,20 @@ int creer_serveur(int port){
 }
 
 void initialiser_signaux(void){
+  struct sigaction sa;
   if(signal(SIGPIPE, SIG_IGN) == SIG_ERR)
     perror("signal");
+  sa.sa_handler = traitement_signal;
+  sigemptyset(&sa.sa_mask);
+  sa.sa_flags= SA_RESTART;
+  if(sigaction(SIGCHLD, &sa, NULL) == -1)
+    perror("sigaction(SIGCHLD)");
 }
+
+void traitement_signal(int sig){
+  printf("Signal %d reçu\n", sig);
+  fflush(stdout);
+  waitpid(-1,NULL ,WNOHANG );
+}
+
 
