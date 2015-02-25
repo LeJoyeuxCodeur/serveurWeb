@@ -13,11 +13,11 @@ int main(void){
 	int client;
 	int pid;
 	FILE *file;
-	int version1, version2;
 	const char *intro = "Bienvenue, mortel, sur ce magnifique serveur d'echo\nIci ma gueule, quand tu parles, on te répond !\nCependant, tu auras la grosse impression de dialoguer... tout seul !\nHeureusement, tu connais ça, espèce de sans amis!\nTu peux t'en aller après avoir pris assez de vents dans la tête avec un ctrl + c\nSalut rémi sans amis!\n";
 	char buffer[1024];
 	
-	char* reqS1, reqS2;
+	char *reqS1 ="";
+	char *reqS2="";
 	int reqI1, reqI2;
 	while(1){
 		if((client = accept(serveur, NULL, NULL)) == -1)
@@ -35,10 +35,13 @@ int main(void){
 		  }else{
 		    file=fdopen(client, "w+");
 		    while(fgets(buffer, 1024, file)!=NULL){
-		      if(buffer[0]=='G' && buffer[1]=='E' && buffer[2]=='T'){
-			sscanf(buffer, "%s %s HTTP%d.%d", reqS1, reqS2 ,reqI1 ,reqI2);
+		      sscanf(buffer, "%s %s HTTP%d.%d", reqS1, reqS2 ,&reqI1 ,&reqI2);
+		      if(strcmp(reqS1, "GET")==0){
 			if(reqI1==1 && (reqI2 == 1 || reqI2==0)){
+			  frpitnf(file, "HTTP/1.1 200 OK\r\n");
 			}
+		      }else{
+			fprintf(file, "HTTP/1.1 400 Bad Request\r\nConnection: close\r\nContent-length: 17\r\r\n400 Bad request\r\n",);
 		      }
 		      //fprintf(file, "YouCantTestMyServer %s" ,buffer);
 		      printf("YouCantTestMyServer %s" ,buffer);
