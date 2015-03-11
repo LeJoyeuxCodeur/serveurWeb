@@ -53,8 +53,12 @@ int main(void){
 	    break;
 	}
 	if(requestTrue==1){
+	  if(strcmp(reqS2, "/")==0){
 	  fprintf(file, "HTTP/1.1 200 OK\r\n");
 	  fprintf(file, intro);
+	  }else{
+	    fprintf(file, "HTTP/1.1 404 File Not Found\r\nConnection: close\r\nContent-length: 17\r\r\n404 File Not Found\r\n");
+	  }
 	}else
 	  fprintf(file, "HTTP/1.1 400 Bad Request\r\nConnection: close\r\nContent-length: 17\r\r\n400 Bad request\r\n");
 	printf("Client déconnecté\n");
